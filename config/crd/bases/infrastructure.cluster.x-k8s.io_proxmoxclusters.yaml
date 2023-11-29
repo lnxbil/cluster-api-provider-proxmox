@@ -306,6 +306,11 @@ spec:
                           - bridge
                           - name
                           type: object
+                          x-kubernetes-validations:
+                          - message: at least one pool reference must be set, either
+                              ipv4PoolRef or ipv6PoolRef
+                            rule: self.ipv4PoolRef != null || self.ipv6PoolRef !=
+                              null
                         type: array
                         x-kubernetes-list-map-keys:
                         - name
@@ -388,8 +393,8 @@ spec:
                     format: int32
                     type: integer
                   virtualIPNetworkInterface:
-                    description: VirtualIPNetworkInterface is the interface name used
-                      by KubeADM.
+                    description: VirtualIPNetworkInterface is the interface the k8s
+                      control plane binds to.
                     type: string
                   virtualMachineID:
                     description: VirtualMachineID is the Proxmox identifier for the

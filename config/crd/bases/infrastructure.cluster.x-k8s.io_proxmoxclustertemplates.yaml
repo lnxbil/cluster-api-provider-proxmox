@@ -65,7 +65,7 @@ spec:
                     description: ProxmoxClusterSpec defines the desired state of ProxmoxCluster.
                     properties:
                       allowedNodes:
-                        description: AllowedNodes specifies all proxmox nodes, which
+                        description: AllowedNodes specifies all Proxmox nodes which
                           will be considered for operations. This implies that VMs
                           can be cloned on different nodes from the node which holds
                           the VM template.
@@ -331,6 +331,11 @@ spec:
                                   - bridge
                                   - name
                                   type: object
+                                  x-kubernetes-validations:
+                                  - message: at least one pool reference must be set,
+                                      either ipv4PoolRef or ipv6PoolRef
+                                    rule: self.ipv4PoolRef != null || self.ipv6PoolRef
+                                      != null
                                 type: array
                                 x-kubernetes-list-map-keys:
                                 - name
@@ -416,7 +421,7 @@ spec:
                             type: integer
                           virtualIPNetworkInterface:
                             description: VirtualIPNetworkInterface is the interface
-                              name used by KubeADM.
+                              the k8s control plane binds to.
                             type: string
                           virtualMachineID:
                             description: VirtualMachineID is the Proxmox identifier
